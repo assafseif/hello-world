@@ -1,11 +1,10 @@
 pipeline {
     agent any
-<<<<<<< HEAD
     
       environment {
         imageName = "myphpapp"
         registryCredentials = "nexus"
-        registry = "ec2-13-58-223-172.us-east-2.compute.amazonaws.com:8085/"
+        registry = "localhost:8085/"
         dockerImage = ''
     }
     
@@ -19,7 +18,7 @@ pipeline {
 	        }
 	    
 	    
-	    stage('build Imae'){
+	    stage('build Image'){
 	        steps {
 	            script{
 	                dockerImage=docker.build imageName
@@ -29,24 +28,37 @@ pipeline {
 	    }
 	    
 	    
-	    
-	    
+	     // Uploading Docker images into Nexus Registry
+    stage('Uploading to Nexus') {
+     steps{  
+         script {
+             docker.withRegistry( 'http://'+registry, registryCredentials ) {
+             dockerImage.push('latest')
+                 
+             }
+        }
+      }
+    }
+    
+    
+        stage('stop previous containers') {
+         steps {
+          bat 'docker rm -f myphpcontainer'
+         }
+       }
+    
+     stage('Docker Run') {
+       steps{
+         script {
+                bat 'docker run -d -p 3000:3000 --rm --name myphpcontainer ' + registry + imageName
+                
+            }
+         }
+      }    
+    
+   
+         
 	    
 	}
+
 }
-=======
-    tools {nodejs "nodejs"}
-    stages {
-        stage('Build') { 
-            steps {
-                sh 'npm install' 
-            }
-        }
-        stage('Test') { 
-            steps {
-              echo 'Testing ...' 
-            }
-        }
-    }
-}
->>>>>>> e719762ea868e0e5657aea6d618e8b114a8ecc81
