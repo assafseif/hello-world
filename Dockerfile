@@ -1,10 +1,16 @@
 FROM node:lts-alpine
-ENV NODE_ENV=production
-WORKDIR /usr/src/app
-COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
-RUN npm install --production --silent && mv node_modules ../
+
+#COPY PACKAGE JSON FILES
+COPY package*.json ./
+
+#install pretier
+RUN npm install prettier -g
+
+#install files
+RUN npm install
+
+#copy source file
 COPY . .
-EXPOSE 3000
-RUN chown -R node /usr/src/app
-USER node
-CMD ["node", "index.js"]
+EXPOSE 8000
+
+CMD ["node","src/app.js"]
