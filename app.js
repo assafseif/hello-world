@@ -1,12 +1,10 @@
-const http = require('http');
+const express = require('express');
+const app=express();
+app.get('/',()=>{
+  return 'assaf'
+})
 
-const hostname = '127.0.0.1';
-const port = 3000;
+app.listen(8090,()=>{
+  console.log('listeting on 8080')
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World');
-});
-
-console.log("hello assaf world");
+})
