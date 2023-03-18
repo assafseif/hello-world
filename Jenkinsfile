@@ -54,13 +54,13 @@ pipeline {
             emailext body: "Build succeeded. Check the console output at ${env.BUILD_URL} for details.",
                      recipientProviders: [[$class: 'DevelopersRecipientProvider']],
                      subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - Success",
-                     to: 'your-email-address@example.com'
+                     to: 'assaf_seif@outlook.com'
         }
         failure {
             emailext body: "Build failed. Check the console output at ${env.BUILD_URL} for details.",
                      recipientProviders: [[$class: 'DevelopersRecipientProvider']],
                      subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - Failure",
-                     to: 'your-email-address@example.com'
+                     to: 'assaf_seif@outlook.com'
         }
     }
 }
